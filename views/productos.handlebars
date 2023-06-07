@@ -1,0 +1,66 @@
+<form action="" id="formProductos">
+{{#if ifAdmin}}
+<h3>Ingrese el producto</h3>
+
+<label for="title">title</label><input type="text" id="input_title" placeholder="title">
+<label for="description">description</label><input type="text" id="input_description" placeholder="description">
+<label for="stock">stock</label><input type="text" id="input_stock" placeholder="stock">
+<label for="price">price</label><input type="text" id="input_price" placeholder="price">
+<button type="submit">Agregar producto</button>
+
+</form>
+<br>
+<form action="" id="deleteForm">
+<h3>Eliminar el producto</h3>
+
+<label for="id">Ingrese id</label><input type="text" id="input_delete" placeholder="id">
+<button type="submit">Eliminar producto</button>
+
+</form>
+<br>
+<br>
+{{else}}
+<p>Bienvenido devuelta {{usuarioName}}</p>
+{{/if}}
+<h3>Productos</h3> <a href="http://localhost:8080/">Volver al inicio</a>
+
+{{#if hayProductos}}
+    {{#if ifAdmin}}
+        <ul style="list-style: none;">
+        {{#each productos}}
+        <li>Titulo: {{this.title}}</li>
+        <li>Descripcion: {{this.description}}</li>
+        <li>Precio: ${{this.price}}</li>
+        <li>Stock: {{this.stock}}</li>
+        <li>Id: {{this.idProducto}}</li>
+        <br>
+        <br>
+        {{/each}}
+        </ul>
+    {{else}}
+        <ul style="list-style: none;">
+        {{#each productos}}
+        
+        <form action="" id="formProducto">
+        <li>Titulo: {{this.title}}</li>
+        <li>Descripcion: {{this.description}}</li>
+        <li>Precio: ${{this.price}}</li>
+        <li>Id: ${{this.idProducto}}</li>
+        <input type="button" value="Agregar al carrito">
+        {{!-- <button type="submit">Añadir al carrito</button> --}}
+        </form>
+
+        <br>
+        <br>
+        {{/each}}
+        </ul>
+    {{/if}}    
+{{else}}
+<p>No hay productos</p>
+{{/if}}
+
+<h3>Carrito</h3>
+
+
+
+<script src="js/productos.js"></script>
