@@ -2,7 +2,7 @@ const formProductos = document.querySelector('#formProductos')
 
 if(formProductos instanceof HTMLFormElement){
     formProductos.addEventListener('submit', async evento => {
-        // evento.preventDefault()
+        evento.preventDefault()
         const input_title = document.querySelector('#input_title')
         const input_description = document.querySelector('#input_description')
         const input_stock = document.querySelector('#input_stock')
@@ -62,17 +62,106 @@ if(deleteForm instanceof HTMLFormElement){
         }
     })
 }
+// console.log(stringFormProducto.substring(194,230))
 
-// const formProducto = document.querySelector('#formProducto')
+// const stringFormProducto = form.outerHTML
+
+
+const formProducto = document.querySelectorAll('#formProducto')
+
+
+formProducto.forEach(function(formulario) {
+    formulario.addEventListener('submit', async function(evento) {
+        evento.preventDefault()
+  
+
+        const liEspecifico = formulario.querySelector('#listId')
+
+        if(liEspecifico){
+            const contenidoLi = liEspecifico.textContent
+            const idContenido = contenidoLi.substring(5,41)
+
+            const dataContenido = {
+                id:idContenido
+            }            
+
+            const fetchDataContenido = await fetch('/api/carritos/addProduct', {
+                method:'PUT',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(dataContenido)
+            })
+            console.log(dataContenido)
+        }
+
+    })
+  })
+
+
+
+
+  
+  //   const stringFormulario = formulario.outerHTML
+  //   const idFormulario = stringFormulario.substring(194,230)       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const formProducto = document.querySelectorAll('#formProducto')
+
 
 // if(formProducto instanceof HTMLFormElement){
-//     formProducto.addEventListener('submit', async evento => {
+//     formProducto.forEach(function(form){
+//         form.addEventListener('submit', function(evento){
+//             evento.preventDefault()
+    
+//             // const formData = new FormData(formProducto)
+//             // const idProducto = stringFormProducto.substring(194,230)
+//             // const idProducto = formData.get('idProducto')
+    
+//             console.log(form)
+    
+    
+//         })
 
-//         const productId = document.querySelector('#productId')
-
-//         if(productId instanceof HTMLLIElement){
-
-//            console.log(productId.value)
-//         }
 //     })
+    
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

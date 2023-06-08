@@ -58,7 +58,7 @@ export async function productosController (req,res,next){
 
     const productos = await productosRepository.readMany()
     const usuario = req.credenciales
-    
+    // console.log(productos)
 
     res.render('productos', {
         pageTitle:'Productos',

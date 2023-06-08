@@ -26,8 +26,8 @@
 
 {{#if hayProductos}}
     {{#if ifAdmin}}
-        <ul style="list-style: none;">
         {{#each productos}}
+        <ul style="list-style: none;">
         <li>Titulo: {{this.title}}</li>
         <li>Descripcion: {{this.description}}</li>
         <li>Precio: ${{this.price}}</li>
@@ -35,25 +35,24 @@
         <li>Id: {{this.idProducto}}</li>
         <br>
         <br>
-        {{/each}}
         </ul>
+        {{/each}}
     {{else}}
-        <ul style="list-style: none;">
         {{#each productos}}
-        
+        <br>
+        <ul style="list-style: none;">
+            
         <form action="" id="formProducto">
         <li>Titulo: {{this.title}}</li>
         <li>Descripcion: {{this.description}}</li>
         <li>Precio: ${{this.price}}</li>
-        <li>Id: ${{this.idProducto}}</li>
-        <input type="button" value="Agregar al carrito">
-        {{!-- <button type="submit">Añadir al carrito</button> --}}
+        <li id="listId">Id: ${{this.idProducto}}</li>
+        <li>Stock:{{this.stock}}</li>
+        <button type="submit">Agregar al carrito</button>
         </form>
-
-        <br>
+        </ul>
         <br>
         {{/each}}
-        </ul>
     {{/if}}    
 {{else}}
 <p>No hay productos</p>
