@@ -51,7 +51,20 @@ export class DaoMongoose {
     }
 
     async updateMany(criteria, newCriteria) {
-        await this.#model.updateMany(criteria, newCriteria)
+        let objeto1 = {
+            _id:criteria._id,
+            idCarrito:criteria.idCarrito,
+            productos:criteria.productos
+        }
+        let objeto2 = {
+            _id:newCriteria._id,
+            idCarrito:newCriteria.idCarrito,
+            productos:newCriteria.productos
+        }
+        // console.log(objeto1)
+        // console.log(objeto2)
+
+        await this.#model.updateOne({_id:objeto1._id},objeto2)
     }
 
     async deleteOne(criteria) {

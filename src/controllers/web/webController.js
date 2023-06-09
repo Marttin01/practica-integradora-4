@@ -1,3 +1,4 @@
+import { carritoRepository } from "../../repositories/carritoRepository.js"
 import { productosRepository } from "../../repositories/productosRepository.js"
 import { usuarioRepository } from "../../repositories/usuariosRepository.js"
 
@@ -58,7 +59,9 @@ export async function productosController (req,res,next){
 
     const productos = await productosRepository.readMany()
     const usuario = req.credenciales
-    // console.log(productos)
+    
+    const cart = await carritoRepository.readByCartId(req.credenciales.cart)
+    console.log(cart.productos)
 
     res.render('productos', {
         pageTitle:'Productos',
@@ -66,7 +69,9 @@ export async function productosController (req,res,next){
         hayProductos: productos.length > 0,
         usuario,
         ifAdmin: usuario.rol === 'admin',
-        usuarioName: usuario.first_name
+        usuarioName: usuario.first_name,
+        cart,
+        cartProductos:cart.productos
     })
 }
 

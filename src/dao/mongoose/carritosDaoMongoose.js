@@ -3,21 +3,15 @@ import { DaoMongoose } from "./DaoMongoose.js";
 
 const carritosSchema = new mongoose.Schema({
     idCarrito:String,
-    productos:{
-        type: [{
-            producto: {
-                type:mongoose.Schema.Types.ObjectId,
-                ref:'productos'
-            },
-            cantidad:Number
-        }],
-        default:[]
-    }
+    productos:[{
+        idProduct:{type:String, default:""},
+        cantidad:{type:Number, default:0} 
+    },{versionKey:false}]
 },{versionKey:false})
 
-carritosSchema.pre('find', function () {
-    this.populate('productos.producto')
-})
+// carritosSchema.pre('findOne', function () {
+//     this.populate('productos.producto')
+// })
 
 
 

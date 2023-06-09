@@ -8,7 +8,7 @@ const usuariosSchema = new mongoose.Schema({
     email:{type:String, unique:true},
     password:String,
     rol:{type:String, num:'admin,user', default:'user'},
-    cart:String
+    cart:Object
 }, {versionKey:false})
 const usuarioModel = mongoose.model('usuarios', usuariosSchema)
 

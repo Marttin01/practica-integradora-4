@@ -1,4 +1,4 @@
-const formProductos = document.querySelector('#formProductos')
+const formProductos = document.querySelector('#formProducto')
 
 if(formProductos instanceof HTMLFormElement){
     formProductos.addEventListener('submit', async evento => {
@@ -72,7 +72,7 @@ const formProducto = document.querySelectorAll('#formProducto')
 
 formProducto.forEach(function(formulario) {
     formulario.addEventListener('submit', async function(evento) {
-        evento.preventDefault()
+        // evento.preventDefault()
   
 
         const liEspecifico = formulario.querySelector('#listId')
@@ -84,6 +84,7 @@ formProducto.forEach(function(formulario) {
             const dataContenido = {
                 id:idContenido
             }            
+            console.log(idContenido)
 
             const fetchDataContenido = await fetch('/api/carritos/addProduct', {
                 method:'PUT',
