@@ -59,11 +59,15 @@
 {{/if}}
 
 <h3>Carrito</h3>
+
 {{#each cartProductos}}
+<form action="" id="formEliminar">
 <ul style="list-style: none;">
-<li>Id del producto: {{this.idProduct}}</li>
-<li>Cantidad: {{this.cantidad}}</li>
+<li id="lista">Id del producto: {{this.idProduct}}</li>
+<li id="cantidad">Cantidad: {{this.cantidad}}</li>
+<button type="submit">Eliminar del carrito</button>
 </ul>
+</form>
 {{/each}}
 
 <script src="js/productos.js"></script>

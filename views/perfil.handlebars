@@ -3,6 +3,18 @@
 {{lastName}}<br>
 {{age}}<br>
 {{email}}<br>
+{{#if hayProductos}}
+{{cart}}<br>
+{{#each productos}}
+<ul style="list-style: none;">
+<li>Producto:{{this.idProduct}}</li>
+<li>Cantidad:{{this.cantidad}}</li>
+</ul>
+{{/each}}
+{{else}}
+{{cart}}<br>
+{{/if}}
+
 <br>
 {{rol}}<br>
 

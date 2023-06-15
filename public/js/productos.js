@@ -72,7 +72,7 @@ const formProducto = document.querySelectorAll('#formProducto')
 
 formProducto.forEach(function(formulario) {
     formulario.addEventListener('submit', async function(evento) {
-        // evento.preventDefault()
+        evento.preventDefault()
   
 
         const liEspecifico = formulario.querySelector('#listId')
@@ -84,7 +84,6 @@ formProducto.forEach(function(formulario) {
             const dataContenido = {
                 id:idContenido
             }            
-            console.log(idContenido)
 
             const fetchDataContenido = await fetch('/api/carritos/addProduct', {
                 method:'PUT',
@@ -93,11 +92,47 @@ formProducto.forEach(function(formulario) {
                 },
                 body: JSON.stringify(dataContenido)
             })
-            console.log(dataContenido)
+            // console.log(dataContenido)
+            if(fetchDataContenido.status === 201) window.location.replace('/productos')
         }
 
     })
-  })
+})
+
+const formEliminado = document.querySelectorAll('#formEliminar')
+
+formEliminado.forEach(function(formulario) {
+    formulario.addEventListener('submit', async function(evento) {
+        evento.preventDefault()
+
+        const liEspecifico = formulario.querySelector('#lista')
+        const cantidadLi = formulario.querySelector('#cantidad')
+
+        if(liEspecifico && cantidadLi){
+            const contenidoLi = liEspecifico.textContent
+            const idContenido = contenidoLi.substring(17,53)
+
+            const cantidad = cantidadLi.textContent
+            const cantContenido = cantidad.substring(10,20)
+
+            const dataContenido = {
+                id:idContenido,
+                cantidad:parseInt(cantContenido)
+            }
+
+
+            const fetchDataContenido = await fetch('api/carritos/deleteProduct', {
+                method:'DELETE',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(dataContenido)
+            })
+
+            console.log(dataContenido)
+        }
+    })
+})
 
 
 
