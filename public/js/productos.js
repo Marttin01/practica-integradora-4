@@ -103,7 +103,7 @@ const formEliminado = document.querySelectorAll('#formEliminar')
 
 formEliminado.forEach(function(formulario) {
     formulario.addEventListener('submit', async function(evento) {
-        evento.preventDefault()
+        // evento.preventDefault()
 
         const liEspecifico = formulario.querySelector('#lista')
         const cantidadLi = formulario.querySelector('#cantidad')
@@ -134,53 +134,61 @@ formEliminado.forEach(function(formulario) {
     })
 })
 
+const botonEliminar = document.querySelector('#botonEliminar')
 
+if(botonEliminar instanceof HTMLButtonElement) {
+    botonEliminar.addEventListener('click', async (evento) => {
+        const fetchTicket = await fetch('api/carritos/:cid/purchase', {
+            method:'POST',
+            headers: {
+                'Content-Type':'application/json'
+            }
+        })
 
+        if(fetchTicket.status === 201) {
+            window.location.replace('/productos')
+        }
 
-  
-  //   const stringFormulario = formulario.outerHTML
-  //   const idFormulario = stringFormulario.substring(194,230)       
+    })
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const formProducto = document.querySelectorAll('#formProducto')
-
-
-// if(formProducto instanceof HTMLFormElement){
-//     formProducto.forEach(function(form){
-//         form.addEventListener('submit', function(evento){
-//             evento.preventDefault()
-    
-//             // const formData = new FormData(formProducto)
-//             // const idProducto = stringFormProducto.substring(194,230)
-//             // const idProducto = formData.get('idProducto')
-    
-//             console.log(form)
-    
-    
-//         })
-
+// if(botonEliminar instanceof HTMLButtonElement){
+//     fetch(`api/carritos/:cid/purchase`, {
+//         method:'POST',
+//         headers: {
+//             'Content-Type':'application/json'
+//         }
 //     })
-    
 // }
 
+
+// if(botonEliminar){
+//     botonEliminar.addEventListener('click',  async (evento) => {
+//         formEliminado.forEach((form) => {
+//             form.addEventListener('submit', async (e) => {
+
+//                 const idProducto = form.querySelector('#lista')
+//                 const cantProducto = form.querySelector('#cantidad')
+
+//                 if(idProducto && cantProducto){
+//                     const contenido = idProducto.textContent
+//                     const idCont = contenido.substring(17,53)
+
+//                     const cantidad = cantProducto.textContent
+//                     const contenidoCant = cantidad.substring(10,20)
+
+//                     const dataContenido = {
+//                         id:idCont,
+//                         cantidad:contenidoCant
+//                     }
+
+//                     console.log(dataContenido)
+//                 }
+//             })
+//         })
+        
+//     })
+// }
 
 
 

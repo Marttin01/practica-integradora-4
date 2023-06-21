@@ -34,7 +34,9 @@ export function loginController (req,res,next){
 export async function perfilController (req,res,next) {
 
     const usuario = req.credenciales
-    console.log(usuario.cart)
+    // console.log(usuario.cart)
+    const cart = await carritoRepository.readByCartId(usuario.cart.idCarrito)
+    // console.log(cart)
 
     // usuario.cart.productos.forEach(producto => {
     // })
@@ -48,9 +50,9 @@ export async function perfilController (req,res,next) {
         age:usuario.age,
         rol:usuario.rol,
         ifAdmin: usuario.rol === 'admin',
-        cart:usuario.cart.idCarrito,
-        hayProductos:usuario.cart.productos.length > 0,
-        productos:usuario.cart.productos
+        carrito:cart.idCarrito,
+        hayProductos:cart.productos.length > 0,
+        productos:cart.productos
     })
 }
 
@@ -74,7 +76,7 @@ export async function productosController (req,res,next){
     const user = await usuarioRepository.readByEmail(emailUser)
 
     
-    const cart = user.cart
+    const cart = await carritoRepository.readByCartId(user.cart.idCarrito)
     // console.log(cart.productos)
 
     res.render('productos', {

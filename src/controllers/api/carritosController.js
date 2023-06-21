@@ -1,17 +1,70 @@
+import { Ticket } from "../../models/Ticket.js"
 import { carritoRepository } from "../../repositories/carritoRepository.js"
 import { productosRepository } from "../../repositories/productosRepository.js"
+import { ticketRepository } from "../../repositories/ticketRepository.js"
 import { usuarioRepository } from "../../repositories/usuariosRepository.js"
-import _ from 'lodash'
 
 export async function handlePost (req,res,next){
-    
+    // console.log(req.credenciales)
+    // console.log(req.credenciales)
+    const email = req.credenciales.email
+    const carrito = await carritoRepository.readByCartId(req.credenciales.cart.idCarrito)
+    const valores = []
+
+    await Promise.all(
+    carrito.productos.map(async (producto) => {
+        const encontrado = await productosRepository.readById(producto.idProduct)
+        // console.log(encontrado)
+        if(encontrado.stock > producto.cantidad){
+            console.log('el stock del producto es mayor que el del carrito')
+            const valor = encontrado.price * producto.cantidad
+            // console.log(valor)
+            valores.push(valor)
+            // console.log(valores)
+            const nuevoProducto = {
+                ...encontrado,
+                stock:encontrado.stock-producto.cantidad
+            }
+            await productosRepository.updateOne(encontrado,nuevoProducto)
+            const index = carrito.productos.findIndex((p) => p.idProduct === producto.idProduct)
+            // console.log(index)
+            carrito.productos.splice(index,1)
+            // console.log(carrito)
+            
+            // const nuevoCarrito = {
+            //     ...carrito
+            // }
+
+            const viejoCart = await carritoRepository.readByCartId(req.credenciales.cart.idCarrito)
+
+            await carritoRepository.updateOne(viejoCart,carrito)
+        }else {
+            console.log('el stock del producto es menor o igual que el del carrito')
+        }
+    })    
+    )
+
+    // console.log(valores)
+    const total = valores.reduce((first,second) => first + second, 0)
+    // console.log(total)
+
+    const nuevoTicket = {
+        amount:total,
+        purcharser:email
+    }
+
+    const ticket = new Ticket(nuevoTicket)
+    // console.log(ticket.dto())
+    const creado = await ticketRepository.create(ticket.dto())
+    // console.log(creado)
+    res.sendStatus(201)
 }
 
 export async function handlePut (req,res,next){
     const idProducto = req.body.id
     const carritoUser = req.credenciales.cart.idCarrito
 
-    console.log(carritoUser)
+    // console.log(carritoUser)
     const carritoBuscado = await carritoRepository.readByCartId(carritoUser)
 
     let productoExiste = carritoBuscado.productos.find((p)=> p.idProduct === idProducto)
@@ -75,34 +128,30 @@ export async function handlePut (req,res,next){
 export async function handleDelete (req,res,next){
     // console.log(req.body)
     const idProducto = req.body.id
-    const cantProducto = req.body.cantidad
     const emailUser = req.credenciales.email
     const user = await usuarioRepository.readByEmail(emailUser)
-    const cartUser = user.cart
+    const cartUser = await carritoRepository.readByCartId(user.cart.idCarrito)
     // console.log(cartUser)
 
     let productoExiste = cartUser.productos.find((p)=> p.idProduct === idProducto)
-    console.log(productoExiste)
+    // console.log(productoExiste)KC
 
     if(productoExiste){
-        if(productoExiste.cantidad > 0){
+        if(productoExiste.cantidad > 1){
             productoExiste.cantidad--
+            let indiceProducto = cartUser.productos.findIndex((p)=> p.idProduct === idProducto)
+            cartUser.productos.splice(indiceProducto,1)
+            cartUser.productos.push(productoExiste)
+
+            const carrito = await carritoRepository.readByCartId(req.credenciales.cart.idCarrito)
+            await carritoRepository.updateOne(carrito,cartUser)
+        }else{
+            let indiceProducto = cartUser.productos.findIndex((p)=> p.idProduct === idProducto)
+            cartUser.productos.splice(indiceProducto,1)
+
+            const carrito = await carritoRepository.readByCartId(req.credenciales.cart.idCarrito)
+            await carritoRepository.updateOne(carrito,cartUser)
         }
     }
-    // console.log(productoExiste)
-    // console.log(cartUser)
 
-    
-    console.log(productoExiste)
-    let indiceProducto = cartUser.productos.findIndex((p)=> p.idProduct === idProducto)
-    
-    cartUser.productos.splice(indiceProducto,1)
-
-    
-    cartUser.productos.push(productoExiste)
-    console.log(cartUser)
-    // const productosActualizados = {
-    //     ...cartUser.productos,
-
-    // }
 }
