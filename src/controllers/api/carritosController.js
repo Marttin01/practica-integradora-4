@@ -8,7 +8,7 @@ export async function handlePost (req,res,next){
     // console.log(req.credenciales)
     // console.log(req.credenciales)
     const email = req.credenciales.email
-    const carrito = await carritoRepository.readByCartId(req.credenciales.cart.idCarrito)
+    const carrito = await carritoRepository.readByCartId(req.credenciales.cart.idCarrito?req.credenciales.cart.idCarrito:req.credenciales.cart)
     const valores = []
 
     await Promise.all(
@@ -35,11 +35,12 @@ export async function handlePost (req,res,next){
             //     ...carrito
             // }
 
-            const viejoCart = await carritoRepository.readByCartId(req.credenciales.cart.idCarrito)
+            const viejoCart = await carritoRepository.readByCartId(req.credenciales.cart.idCarrito?req.credenciales.cart.idCarrito:req.credenciales.cart)
 
             await carritoRepository.updateOne(viejoCart,carrito)
         }else {
             console.log('el stock del producto es menor o igual que el del carrito')
+            throw new Error('Producto sin suficiente stock')
         }
     })    
     )
@@ -62,7 +63,7 @@ export async function handlePost (req,res,next){
 
 export async function handlePut (req,res,next){
     const idProducto = req.body.id
-    const carritoUser = req.credenciales.cart.idCarrito
+    const carritoUser = req.credenciales.cart.idCarrito?req.credenciales.cart.idCarrito:req.credenciales.cart
 
     // console.log(carritoUser)
     const carritoBuscado = await carritoRepository.readByCartId(carritoUser)
@@ -130,7 +131,7 @@ export async function handleDelete (req,res,next){
     const idProducto = req.body.id
     const emailUser = req.credenciales.email
     const user = await usuarioRepository.readByEmail(emailUser)
-    const cartUser = await carritoRepository.readByCartId(user.cart.idCarrito)
+    const cartUser = await carritoRepository.readByCartId(req.credenciales.cart.idCarrito?req.credenciales.cart.idCarrito:req.credenciales.cart)
     // console.log(cartUser)
 
     let productoExiste = cartUser.productos.find((p)=> p.idProduct === idProducto)
@@ -143,14 +144,16 @@ export async function handleDelete (req,res,next){
             cartUser.productos.splice(indiceProducto,1)
             cartUser.productos.push(productoExiste)
 
-            const carrito = await carritoRepository.readByCartId(req.credenciales.cart.idCarrito)
+            const carrito = await carritoRepository.readByCartId(req.credenciales.cart.idCarrito?req.credenciales.cart.idCarrito:req.credenciales.cart)
             await carritoRepository.updateOne(carrito,cartUser)
+            res.sendStatus(201)
         }else{
             let indiceProducto = cartUser.productos.findIndex((p)=> p.idProduct === idProducto)
             cartUser.productos.splice(indiceProducto,1)
 
-            const carrito = await carritoRepository.readByCartId(req.credenciales.cart.idCarrito)
+            const carrito = await carritoRepository.readByCartId(req.credenciales.cart.idCarrito?req.credenciales.cart.idCarrito:req.credenciales.cart)
             await carritoRepository.updateOne(carrito,cartUser)
+            res.sendStatus(201)
         }
     }
 

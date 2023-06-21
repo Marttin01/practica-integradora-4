@@ -129,7 +129,7 @@ formEliminado.forEach(function(formulario) {
                 body: JSON.stringify(dataContenido)
             })
 
-            console.log(dataContenido)
+            if(fetchDataContenido.status === 201) window.location.replace('/productos')
         }
     })
 })
