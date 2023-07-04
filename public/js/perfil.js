@@ -22,3 +22,23 @@ if(formLogout instanceof HTMLFormElement){
         
     })
 }
+
+const formRol = document.querySelector('#formRol')
+
+if(formRol instanceof HTMLFormElement){
+    formRol.addEventListener('submit', async () => {
+        const rolButton = document.querySelector('#rolButton')
+
+        if(rolButton instanceof HTMLButtonElement){
+            const rolFetch = await fetch('/api/usuarios/premium', {
+                method:'PUT',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            if(rolFetch.status === 201)window.location.replace('/perfil')
+        }
+    })
+}

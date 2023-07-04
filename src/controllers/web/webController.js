@@ -75,10 +75,12 @@ export async function productosController (req,res,next){
     const productos = await productosRepository.readMany()
     const emailUser = req.credenciales.email
     const user = await usuarioRepository.readByEmail(emailUser)
-
     
+    productos.forEach((producto) => {
+        producto.esPropietario = producto.owner === emailUser
+    })    
+
     const cart = await carritoRepository.readByCartId(user.cart.idCarrito || user.cart)
-    // console.log(cart.productos)
 
     res.render('productos', {
         pageTitle:'Productos',
@@ -86,6 +88,7 @@ export async function productosController (req,res,next){
         hayProductos: productos.length > 0,
         user,
         ifAdmin: user.rol === 'admin',
+        ifPremium: user.rol === 'premium',
         usuarioName: user.first_name,
         cart,
         cartProductos:cart.productos

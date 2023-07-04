@@ -152,43 +152,6 @@ if(botonEliminar instanceof HTMLButtonElement) {
     })
 }
 
-// if(botonEliminar instanceof HTMLButtonElement){
-//     fetch(`api/carritos/:cid/purchase`, {
-//         method:'POST',
-//         headers: {
-//             'Content-Type':'application/json'
-//         }
-//     })
-// }
-
-
-// if(botonEliminar){
-//     botonEliminar.addEventListener('click',  async (evento) => {
-//         formEliminado.forEach((form) => {
-//             form.addEventListener('submit', async (e) => {
-
-//                 const idProducto = form.querySelector('#lista')
-//                 const cantProducto = form.querySelector('#cantidad')
-
-//                 if(idProducto && cantProducto){
-//                     const contenido = idProducto.textContent
-//                     const idCont = contenido.substring(17,53)
-
-//                     const cantidad = cantProducto.textContent
-//                     const contenidoCant = cantidad.substring(10,20)
-
-//                     const dataContenido = {
-//                         id:idCont,
-//                         cantidad:contenidoCant
-//                     }
-
-//                     console.log(dataContenido)
-//                 }
-//             })
-//         })
-        
-//     })
-// }
 
 
 

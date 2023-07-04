@@ -7,7 +7,8 @@ const productosSchema = new mongoose.Schema({
     stock:Number,
     price:Number,
     idProducto:String,
-    status:Boolean
+    status:Boolean,
+    owner:String
 }, {versionKey:false}) 
 const productModel = mongoose.model('productos',productosSchema)
 

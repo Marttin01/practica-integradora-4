@@ -22,6 +22,14 @@
 <button type="submit" id="logoutButton">Logout</a></button>
 </form>
 <br>
+{{#if ifAdmin}}
+
+{{else}}
+<form action="" id="formRol">
+    <button type="submit" id="rolButton">Cambiar rol</button>
+</form>
+<br>
+{{/if}}
 <a href="http://localhost:8080/current">Sesion actual</a>
 <br>
 <a href="http://localhost:8080/">Inicio</a>

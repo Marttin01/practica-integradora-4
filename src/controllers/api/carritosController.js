@@ -13,6 +13,7 @@ export async function handlePost (req,res,next){
 
     await Promise.all(
     carrito.productos.map(async (producto) => {
+        console.log(producto.idProduct)
         const encontrado = await productosRepository.readById(producto.idProduct)
         // console.log(encontrado)
         if(encontrado.stock > producto.cantidad){
@@ -63,15 +64,20 @@ export async function handlePost (req,res,next){
 
 export async function handlePut (req,res,next){
     const idProducto = req.body.id
-    const carritoUser = req.credenciales.cart.idCarrito?req.credenciales.cart.idCarrito:req.credenciales.cart
+    // console.log(idProducto)
 
-    // console.log(carritoUser)
+    const carritoUser = req.credenciales.cart.idCarrito?req.credenciales.cart.idCarrito:req.credenciales.cart
+    // const producto = await productosRepository.readById(idProducto)
+    
+    // console.log(producto)
     const carritoBuscado = await carritoRepository.readByCartId(carritoUser)
 
     let productoExiste = carritoBuscado.productos.find((p)=> p.idProduct === idProducto)
+    
 
 
     let productoCarrito = {
+        // nombre:productoExiste.
         idProduct:idProducto,
         cantidad:productoExiste?productoExiste.cantidad+1:1
     }
@@ -100,7 +106,6 @@ export async function handlePut (req,res,next){
     } 
 
     const carritoBuscado2 = await carritoRepository.readByCartId(carritoUser)
-    // console.log(carritoBuscado2)
     
     const user = await usuarioRepository.readByEmail(req.credenciales.email)
 
@@ -110,18 +115,9 @@ export async function handlePut (req,res,next){
         cart:carritoBuscado2
     }
 
-    // console.log(newUser)
 
     await usuarioRepository.updateOne({email:req.credenciales.email}, newUser)
-    // const productoBuscado = await productosRepository.readById(idProducto)
-    // console.log(productoBuscado)
 
-    // const productoStock = {
-    //     ...productoBuscado,
-    //     stock:productoBuscado.stock - 1
-    // }
-
-    // console.log(productoStock)
 
     res.sendStatus(201)
 }

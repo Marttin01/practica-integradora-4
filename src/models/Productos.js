@@ -7,13 +7,15 @@ export class Producto {
     #price
     #idProducto
     #status
-    constructor({title,description,stock,price,idProducto,status}){
+    #owner
+    constructor({title,description,stock,price,owner}){
         this.#title = title,
         this.#description = description,
         this.#stock = stock,
         this.#price = price,
         this.#idProducto = crypto.id(),
-        this.#status = stock>0?true:false
+        this.#status = stock>0?true:false,
+        this.#owner = owner
     }
 
     dto(){
@@ -23,7 +25,8 @@ export class Producto {
             stock:this.#stock,
             price:this.#price,
             idProducto:this.#idProducto,
-            status:this.#status
+            status:this.#status,
+            owner:this.#owner
         }
     }
 }

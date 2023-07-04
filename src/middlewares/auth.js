@@ -11,8 +11,7 @@ export function extraerCredenciales (req,res,next) {
             // console.log(token)
 
             const dataUser = crypto.decodificarToken(token)
-
-
+            
             req.credenciales = dataUser
             next()
         }
@@ -22,8 +21,15 @@ export function extraerCredenciales (req,res,next) {
 }
 
 export function autenticadosWeb (req,res,next){
-    if(!req.credenciales) {
-        res.redirect('/')
+    try {
+        if(!req.credenciales) {
+            res.redirect('/')
+        }else{
+            next()
+        }
+    } catch (error) {
+        next(error)
     }
-    next()
+    
+    
 }

@@ -1,5 +1,5 @@
+{{#if ifAdmin }}
 <form action="" id="formProducto">
-{{#if ifAdmin}}
 <h3>Ingrese el producto</h3>
 
 <label for="title">title</label><input type="text" id="input_title" placeholder="title">
@@ -19,6 +19,27 @@
 </form>
 <br>
 <br>
+{{else if ifPremium}}
+<form action="" id="formProducto">
+<h3>Ingrese un producto de su propiedad</h3>
+
+<label for="title">title</label><input type="text" id="input_title" placeholder="title">
+<label for="description">description</label><input type="text" id="input_description" placeholder="description">
+<label for="stock">stock</label><input type="text" id="input_stock" placeholder="stock">
+<label for="price">price</label><input type="text" id="input_price" placeholder="price">
+<button type="submit">Agregar producto</button>
+
+</form>
+<br>
+<form action="" id="deleteForm">
+<h3>Eliminar el producto solo de su propiedad</h3>
+
+<label for="id">Ingrese id de su producto</label><input type="text" id="input_delete" placeholder="id">
+<button type="submit">Eliminar producto</button>
+
+</form>
+<br>
+<br>
 {{else}}
 <p>Bienvenido devuelta {{usuarioName}}</p>
 {{/if}}
@@ -33,6 +54,7 @@
         <li>Precio: ${{this.price}}</li>
         <li>Stock: {{this.stock}}</li>
         <li>Id: {{this.idProducto}}</li>
+        <li>Owner: {{this.owner}}</li>
         <br>
         <br>
         </ul>
@@ -46,9 +68,17 @@
         <li>Titulo: {{this.title}}</li>
         <li>Descripcion: {{this.description}}</li>
         <li>Precio: ${{this.price}}</li>
-        <li id="listId">Id: ${{this.idProducto}}</li>
+        <li id="listId">Id: #{{this.idProducto}}</li>
         <li>Stock:{{this.stock}}</li>
+        <li>Owner:{{this.owner}}</li>
+
+        
+        {{#if esPropietario}}
+        <p>Es propietario no puede agregarlo</p>
+        {{else}}
         <button type="submit">Agregar al carrito</button>
+        {{/if}}
+
         </ul>
         </form>
         <br>
@@ -58,6 +88,9 @@
 <p>No hay productos</p>
 {{/if}}
 
+{{#if ifAdmin}}
+<br>
+{{else}}
 <h3>Carrito</h3>
 {{#each cartProductos}}
 
@@ -73,6 +106,6 @@
 {{/each}}
 
 <button id="botonEliminar">Finalizar compra</button>
-
+{{/if}}
 
 <script src="js/productos.js"></script>

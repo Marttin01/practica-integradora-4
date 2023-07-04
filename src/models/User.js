@@ -8,7 +8,7 @@ export class Usuario {
     #password
     #rol
     #cart
-    constructor({first_name,last_name,age,email, password,rol,cart}){
+    constructor({first_name,last_name,age,email, password,rol}){
         this.#first_name = first_name,
         this.#last_name = last_name,
         this.#age = age,

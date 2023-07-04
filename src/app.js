@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser'
 import { COOKIE_SECRET } from './server.config/auth.config.js'
 import { webRouter } from './routers/web/webRouter.js'
 import { extraerCredenciales } from './middlewares/auth.js'
+import { actualizarCredenciales } from './middlewares/actualizar.js'
+
 
 export const app = express()
 
@@ -14,6 +16,7 @@ app.use(express.urlencoded({extended:false}))
 app.use(express.static("./public"))
 
 app.use(cookieParser(COOKIE_SECRET))
+app.use(actualizarCredenciales)
 app.use(extraerCredenciales)
 app.use(passport.initialize())
 
