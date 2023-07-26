@@ -44,6 +44,7 @@ export class DaoMongoose {
         return await this.#model.find().lean()
     }
 
+    //el primer criteria tiene que ser un filtro {id:usuario.id}
     async updateOne(criteria, newCriteria) {
         const modificado = await this.#model.updateOne(criteria, newCriteria)
         if(!modificado) throw new Error('Not found')

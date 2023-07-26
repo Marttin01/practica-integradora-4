@@ -33,7 +33,7 @@ export async function handleDelete (req,res,next){
 
         await usuarioRepository.deleteOne(usuario)
 
-        const carrito = await carritoRepository.readByCartId(usuario.cart?usuario.cart:usuario.cart.idCarrito)
+        const carrito = await carritoRepository.readByCartId(usuario.cart.idCarrito?usuario.cart.idCarrito:usuario.cart)
 
         await carritoRepository.deleteOne(carrito)
 

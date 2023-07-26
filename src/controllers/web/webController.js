@@ -51,6 +51,7 @@ export async function perfilController (req,res,next) {
         age:usuario.age,
         rol:usuario.rol,
         ifAdmin: usuario.rol === 'admin',
+        last:usuario.last_connection,
         carrito:cart.idCarrito?cart.idCarrito:cart,
         hayProductos:cart.productos.length > 0,
         productos:cart.productos
